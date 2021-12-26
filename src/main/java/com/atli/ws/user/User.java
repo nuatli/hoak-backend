@@ -15,7 +15,12 @@ public class User {
 	private String username;
 	private String displayName;
 	private String password;
-	/*
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
 	public String getUsername() {
 		return username;
 	}
@@ -35,9 +40,4 @@ public class User {
 		this.password = password;
 	}
 
-	
-	public String toString() {
-		return "User [username=" + username + ", displayName=" + displayName + ", password=" + password+ "]";
-	}
-	*/
 }
