@@ -1,5 +1,6 @@
 package com.atli.ws.user;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -16,18 +17,18 @@ public class User {
 	@GeneratedValue
 	private Long id;
 	
-	@NotNull
+	@NotNull(message = "{hoaxify.constraint.username.NotNull.message}")
 	@Size(min=4, max=255)
 	//@Column(unique=true)
 	@UniqueUsername
 	private String username;
 	
-	@NotNull
+	@NotNull(message = "{hoaxify.constraint.displayname.NotNull.message}")
 	@Size(min=4, max=255)
 	private String displayName;
 	
 	@NotNull
-	//@Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z]).(?=.*\\d).$")
+	//@Pattern(regexp = "^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})",message="{hoaxify.constraint.password.Pattern.message}")
 	@Size(min=8, max=255)
 	private String password;
 	
