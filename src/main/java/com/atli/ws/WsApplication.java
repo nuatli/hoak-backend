@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Bean;
 import com.atli.ws.user.User;
 import com.atli.ws.user.UserService;
 
-@SpringBootApplication(exclude = SecurityAutoConfiguration.class)
+@SpringBootApplication
 public class WsApplication {
 
 	public static void main(String[] args) {
