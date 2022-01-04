@@ -8,6 +8,9 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import com.atli.ws.shared.Views;
+import com.fasterxml.jackson.annotation.JsonView;
+
 import lombok.Data;
 
 @Entity
@@ -21,17 +24,22 @@ public class User {
 	@Size(min=4, max=255)
 	//@Column(unique=true)
 	@UniqueUsername
+	@JsonView(Views.Base.class)
 	private String username;
 	
 	@NotNull(message = "{hoaxify.constraint.displayname.NotNull.message}")
 	@Size(min=4, max=255)
+	@JsonView(Views.Base.class)
 	private String displayName;
 	
 	@NotNull
 	//@Pattern(regexp = "^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})",message="{hoaxify.constraint.password.Pattern.message}")
 	@Size(min=8, max=255)
+	@JsonView(Views.Sensitive.class)
 	private String password;
 	
+	@JsonView(Views.Base.class)
+	private String image;
 	
 	public Long getId() {
 		return id;
@@ -57,5 +65,13 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	public String getImage() {
+		return image;
+	}
+	public void setImage(String image) {
+		this.image = image;
+	}
+	
+	 
 
 }
