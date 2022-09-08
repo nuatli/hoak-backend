@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.atli.ws.shared.GenericResponse;
-import com.atli.ws.shared.Views;
+import com.atli.ws.user.vm.UserVM;
 import com.fasterxml.jackson.annotation.JsonView;
 
 @RestController
@@ -32,7 +32,6 @@ public class UserController {
 		return new GenericResponse("User Created");
 	}
 	@GetMapping("/api/0.0.1/users")
-	@JsonView(Views.Base.class)
 	List<User> getUsers(){
 		return userService.getUsers();
 	}
@@ -51,8 +50,14 @@ public class UserController {
 	}
 	*/
 	@GetMapping("/api/0.0.1/usersWithPage")
-	Page<UserProjection> getAllUsersProjection(Pageable page){
-		return userService.getAllUsersProjection(page);
+	Page<UserVM> getAllUsersProjection(Pageable page){
+		return userService.getUsersWithPage(page).map(UserVM::new);
+		/*
+		  map(user) -> {
+			return new UserVM(user);
+			)}
+		}
+		 */
 	}
 	
 }

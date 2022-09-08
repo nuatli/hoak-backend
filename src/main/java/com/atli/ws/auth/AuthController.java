@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.atli.ws.shared.CurrentUser;
-import com.atli.ws.shared.Views;
 import com.atli.ws.user.User;
 import com.atli.ws.user.UserRepository;
+import com.atli.ws.user.vm.UserVM;
 import com.fasterxml.jackson.annotation.JsonView;
 
 
@@ -25,9 +25,8 @@ public class AuthController {
 	
 	
 	@PostMapping("/api/0.0.1/auth")
-	@JsonView(Views.Sensitive.class)
-	ResponseEntity<?> handleAuthentication(@CurrentUser User user){
-		return ResponseEntity.ok(user);
+	UserVM handleAuthentication(@CurrentUser User user){
+		return new UserVM(user);
 	}
 
 }

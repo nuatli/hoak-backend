@@ -41,10 +41,6 @@ public class UserService {
 		return userRepository.findAll(page);
 	}
 	
-	public Page<UserProjection> getAllUsersProjection(Pageable page){
-		return userRepository.getAllUsersProjection(page);
-	}
-	
 	public void  deleteUser(User user){
 		userRepository.delete(user);
 	}
