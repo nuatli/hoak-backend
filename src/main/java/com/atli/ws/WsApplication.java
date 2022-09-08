@@ -38,11 +38,25 @@ public class WsApplication {
 		return (args) -> {
 			System.out.println("*************************** Initial User Created ***************************");
 			/*
-			User user = new User();
-			user.setUsername("user1");
-			user.setDisplayName("display1");
-			user.setPassword("P4ssword");
-			userService.save(user);
+			for(int i =1 ;i<=10;i++){
+				User user = new User();
+				user.setUsername("user"+i);
+				user.setDisplayName("display"+i);
+				user.setPassword("P4ssword");
+				userService.save(user);
+			}
+			*/
+			
+			//deleteUser
+			/*
+			for(int i =1 ;i<=10;i++){
+				User user = new User();
+				user.setUsername("user"+i);
+				user.setDisplayName("display"+i);
+				user.setPassword("P4ssword");
+				//userService.save(user);
+				userService.deleteUser(user);
+			}
 			*/
 		};
 	}
