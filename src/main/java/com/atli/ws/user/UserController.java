@@ -44,11 +44,15 @@ public class UserController {
 		return userService.getUsersWithPage(currentPage,pageSize);
 	}
 	*/
-	
+	/*
 	@GetMapping("/api/0.0.1/usersWithPage")
-	@JsonView(Views.Base.class)
 	Page<User> getUsersWithPage(Pageable page){
 		return userService.getUsersWithPage(page);
+	}
+	*/
+	@GetMapping("/api/0.0.1/usersWithPage")
+	Page<UserProjection> getAllUsersProjection(Pageable page){
+		return userService.getAllUsersProjection(page);
 	}
 	
 }
