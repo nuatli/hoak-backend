@@ -9,6 +9,6 @@ public interface UserRepository extends JpaRepository<User, Long>{
 
 	User findByUsername(String username);
 	
-
+	Page<User> findByUsernameNot(String username, Pageable page );
 	
 }
