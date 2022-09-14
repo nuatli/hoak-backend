@@ -2,25 +2,21 @@ package com.atli.ws.user;
 
 import java.util.Collection;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonView;
-
 import lombok.Data;
 
 @Entity
-@Data
+//@Data
 public class User implements UserDetails{
 	private static final long serialVersionUID = -404791862213939362L;
 
@@ -32,7 +28,7 @@ public class User implements UserDetails{
 	@Size(min=4, max=255)
 	//@Column(unique=true)
 	@UniqueUsername
-	private String username;
+	public String username;
 	
 	@NotNull(message = "{hoaxify.constraint.displayname.NotNull.message}")
 	@Size(min=4, max=255)
@@ -43,6 +39,7 @@ public class User implements UserDetails{
 	@Size(min=8, max=255)
 	private String password;
 	
+	@Lob
 	private String image;
 	
 	public Long getId() {
@@ -52,7 +49,8 @@ public class User implements UserDetails{
 		this.id = id;
 	}
 	public String getUsername() {
-		return username;
+		//return username;
+		return this.username;
 	}
 	public void setUsername(String username) {
 		this.username = username;

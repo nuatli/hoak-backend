@@ -1,20 +1,17 @@
 package com.atli.ws.user.vm;
 
+import javax.persistence.Lob;
+
 import com.atli.ws.user.User;
 
 import lombok.Data;
 
 @Data
-public class UserVM {
-	public String username;
+public class UserUpdateVM {
 	private String displayName;
+	@Lob
 	private String image;
-	public String getUsername() {
-		return this.username;
-	}
-	public void setUsername(String username) {
-		this.username = username;
-	}
+	
 	public String getDisplayName() {
 		return displayName;
 	}
@@ -27,11 +24,5 @@ public class UserVM {
 	public void setImage(String image) {
 		this.image = image;
 	}
-	
-	public UserVM(User user){
-		this.username = user.getUsername();
-		this.displayName = user.getDisplayName();
-		this.image = user.getImage();
-	}
-	
+
 }
