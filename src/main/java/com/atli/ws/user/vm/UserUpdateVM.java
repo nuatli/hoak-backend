@@ -1,28 +1,17 @@
 package com.atli.ws.user.vm;
 
-import javax.persistence.Lob;
-
-import com.atli.ws.user.User;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import lombok.Data;
 
 @Data
 public class UserUpdateVM {
+	@NotNull(message = "{hoaxify.constraint.displayname.NotNull.message}")
+	@Size(min=4, max=255)
 	private String displayName;
-	@Lob
+
 	private String image;
 	
-	public String getDisplayName() {
-		return displayName;
-	}
-	public void setDisplayName(String displayName) {
-		this.displayName = displayName;
-	}
-	public String getImage() {
-		return image;
-	}
-	public void setImage(String image) {
-		this.image = image;
-	}
 
 }

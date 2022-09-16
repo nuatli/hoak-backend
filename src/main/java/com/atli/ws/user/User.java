@@ -2,6 +2,7 @@ package com.atli.ws.user;
 
 import java.util.Collection;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -15,8 +16,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import lombok.Data;
 
+
+@Data
 @Entity
-//@Data
 public class User implements UserDetails{
 	private static final long serialVersionUID = -404791862213939362L;
 
@@ -48,31 +50,7 @@ public class User implements UserDetails{
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public String getUsername() {
-		//return username;
-		return this.username;
-	}
-	public void setUsername(String username) {
-		this.username = username;
-	}
-	public String getDisplayName() {
-		return displayName;
-	}
-	public void setDisplayName(String displayName) {
-		this.displayName = displayName;
-	}
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
-	}
-	public String getImage() {
-		return image;
-	}
-	public void setImage(String image) {
-		this.image = image;
-	}
+
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return AuthorityUtils.createAuthorityList("Role_user");

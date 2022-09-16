@@ -9,17 +9,20 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.atli.ws.error.NotFoundException;
+import com.atli.ws.file.FileService;
 import com.atli.ws.user.vm.UserUpdateVM;
 
 @Service
 public class UserService {
 	UserRepository userRepository;
 	PasswordEncoder passwordEncoder;
+	FileService fileService;
 	
 	@Autowired
-	public UserService(UserRepository userRepository,PasswordEncoder passwordEncoder) {
+	public UserService(UserRepository userRepository,PasswordEncoder passwordEncoder,FileService fileService) {
 		this.userRepository = userRepository;
 		this.passwordEncoder = passwordEncoder;
+		this.fileService = fileService;
 	}
 
 	public void save(User user) {
@@ -58,13 +61,22 @@ public class UserService {
 
 	}
 
-	public User updateUser(String username, UserUpdateVM updatedUser) {
+	public User updateUser(String username, UserUpdateVM updatedUser){
 		User inDB = getByUsername(username);
 		inDB.setDisplayName(updatedUser.getDisplayName());
 		if(updatedUser.getImage() != null){
-			inDB.setImage(updatedUser.getImage());
+			String oldImageName = inDB.getImage();
+			try {
+				String storedFileName = fileService.writeBase64EncodedStringToFile(updatedUser.getImage(),username);
+				inDB.setImage(storedFileName);
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
+			fileService.deleteFile(oldImageName);
 		}
 		return userRepository.save(inDB);
 	}
+	
+
 
 }
