@@ -11,9 +11,10 @@ import javax.validation.Payload;
 
 @Target({FIELD})
 @Retention(RUNTIME)
-@Constraint(validatedBy = {ProfileImageValidator.class})
-public @interface ProfileImage {
-	String message() default "{hoaxify.constraint.ProfileImage.UniqueUsername.message}";
+@Constraint(validatedBy = {FileTypeValidator.class})
+public @interface FileType {
+	String message() default "{hoaxify.constraint.FileType.message}";
 	Class<?>[] groups() default { };
 	Class<? extends Payload>[] payload() default {};
+	String [] types(); 
 }
