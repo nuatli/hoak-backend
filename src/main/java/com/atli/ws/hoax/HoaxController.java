@@ -3,6 +3,9 @@ package com.atli.ws.hoax;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,4 +25,17 @@ public class HoaxController {
 		hoaxService.save(hoax);
 		return new GenericResponse("Hoax is saved");
 	}
+	
+	
+	@GetMapping("/hoaxes")
+	Page<Hoax> getHoaxes(Pageable page){
+		return hoaxService.getHoaxesWithPage(page);
+	}
+	
+	/*
+	@GetMapping("/hoaxes")
+	List<Hoax> getAllUsersProjection(Pageable page, Hoax hoax){
+		return hoaxService.getHoaxesWithPage(page,hoax).map(Hoax::new);
+	}
+	*/
 }
