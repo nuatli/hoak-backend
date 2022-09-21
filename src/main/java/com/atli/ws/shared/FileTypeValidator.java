@@ -42,7 +42,7 @@ public class FileTypeValidator implements ConstraintValidator<FileType, String>{
 		HibernateConstraintValidatorContext hcvc = context.unwrap(HibernateConstraintValidatorContext.class);
 		hcvc.addMessageParameter("types", supportedTypes);
 		hcvc.buildConstraintViolationWithTemplate(context.getDefaultConstraintMessageTemplate()).addConstraintViolation();
-		//geri gönderilen hatayı manipule etti 
+		//geri gönderilen hatayı manipule etti  @FileType(types = {"jpeg","png"})
 		return false;
 	}
 
