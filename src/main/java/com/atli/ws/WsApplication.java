@@ -7,6 +7,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 
+import com.atli.ws.hoax.Hoax;
+import com.atli.ws.hoax.HoaxService;
+import com.atli.ws.user.User;
 import com.atli.ws.user.UserService;
 
 @SpringBootApplication
@@ -20,10 +23,10 @@ public class WsApplication {
 	
 	@Bean//Spring ile iliski kurduk, Uyguluama ayağı takltığı zaman çalışıyor.
 	@Profile("!production")
-	CommandLineRunner createInitialUsers(UserService userService){
+	CommandLineRunner createInitialUsers(UserService userService,HoaxService hoaxService){
 		return (args) -> {
 			System.out.println("*************************** Initial User Created ***************************");
-			/*
+			
 			for(int i =1 ;i<=10;i++){
 				User user = new User();
 				user.setUsername("user"+i);
@@ -31,7 +34,13 @@ public class WsApplication {
 				user.setPassword("P4ssword");
 				userService.save(user);
 			}
-			*/
+			
+			for(int i =1 ;i<=50;i++){
+				Hoax hoax = new Hoax();
+				hoax.setContent("hoax - " +i);			
+				hoaxService.save(hoax);
+			}
+			
 		};
 	}
 
