@@ -8,12 +8,16 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.atli.ws.hoax.vm.HoaxVM;
+import com.atli.ws.shared.CurrentUser;
 import com.atli.ws.shared.GenericResponse;
+import com.atli.ws.user.User;
 
 @RestController
 @RequestMapping("/api/0.0.1")
@@ -23,8 +27,8 @@ public class HoaxController {
 	HoaxService hoaxService;
 	
 	@PostMapping("/hoaxes")
-	public GenericResponse saveHoax(@Valid @RequestBody Hoax hoax) {
-		hoaxService.save(hoax);
+	public GenericResponse saveHoax(@Valid @RequestBody Hoax hoax, @CurrentUser User user) {
+		hoaxService.save(hoax,user);
 		return new GenericResponse("Hoax is saved");
 	}
 	
@@ -36,8 +40,13 @@ public class HoaxController {
 	*/
 	
 	@GetMapping("/hoaxes")
-	Page<Hoax> getHoaxes(@PageableDefault(sort="id",direction= Direction.DESC) Pageable page){
-		return hoaxService.getHoaxesWithPage(page);
+	Page<HoaxVM> getHoaxes(@PageableDefault(sort="id",direction= Direction.DESC) Pageable page){
+		return hoaxService.getHoaxesWithPage(page).map(HoaxVM::new);//Hoax dataları mapliyip HoaxVM'e dönüştürüp return ediyor.
+	}
+	
+	@GetMapping("/users/{username}/hoaxes")
+	Page<HoaxVM> getUserHoaxes(@PathVariable String username,@PageableDefault(sort="id",direction= Direction.DESC) Pageable page){
+		return hoaxService.getuserHoaxesWithPage(page,username).map(HoaxVM::new);//Hoax dataları mapliyip HoaxVM'e dönüştürüp return ediyor.
 	}
 
 }

@@ -30,6 +30,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 		http.authorizeRequests()
 				.antMatchers(HttpMethod.POST, "api/0.0.1/auth").authenticated()
 				.antMatchers(HttpMethod.PUT, "api/0.0.1/users/{username}").authenticated ()
+				.antMatchers(HttpMethod.POST, "api/0.0.1/hoaxes").authenticated () // login olmadan bu apileri kullanamaz
 			.	and()
 			.	authorizeRequests().anyRequest().permitAll();
 		

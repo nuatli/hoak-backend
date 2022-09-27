@@ -27,19 +27,20 @@ public class WsApplication {
 		return (args) -> {
 			System.out.println("*************************** Initial User Created ***************************");
 			
-			for(int i =1 ;i<=10;i++){
+			for(int i =1 ;i<=25;i++){
 				User user = new User();
 				user.setUsername("user"+i);
 				user.setDisplayName("display"+i);
 				user.setPassword("P4ssword");
 				userService.save(user);
+				for(int j =1 ;j<=2;j++){
+					Hoax hoax = new Hoax();
+					hoax.setContent("hoax ("+j+ ") from user ("+i+")");			
+					hoaxService.save(hoax,user);
+				}
 			}
-			
-			for(int i =1 ;i<=50;i++){
-				Hoax hoax = new Hoax();
-				hoax.setContent("hoax - " +i);			
-				hoaxService.save(hoax);
-			}
+			 
+
 			
 		};
 	}
