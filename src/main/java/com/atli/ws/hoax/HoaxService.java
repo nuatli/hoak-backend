@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Order;
+import org.springframework.data.util.Streamable;
 import org.springframework.stereotype.Service;
 
 import com.atli.ws.user.User;
@@ -39,6 +41,15 @@ public class HoaxService {
 	public Page<Hoax> getuserHoaxesWithPage(Pageable page, String username) {
 		User inDB = userService.getByUsername(username);
 		return hoaxRepository.findByUser(inDB, page);
+	}
+
+	public Page<Hoax> getOldHoaxes(long id, Pageable page) {
+		return hoaxRepository.findByIdLessThan(id, page);
+	}
+
+	public Page<Hoax> getOldHoaxesofUser(String username, long id, Pageable page) {
+		User inDB = userService.getByUsername(username);
+		return hoaxRepository.findByIdLessThanAndUser(id,inDB,page);
 	}
 
 	

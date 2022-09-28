@@ -48,5 +48,15 @@ public class HoaxController {
 	Page<HoaxVM> getUserHoaxes(@PathVariable String username,@PageableDefault(sort="id",direction= Direction.DESC) Pageable page){
 		return hoaxService.getuserHoaxesWithPage(page,username).map(HoaxVM::new);//Hoax dataları mapliyip HoaxVM'e dönüştürüp return ediyor.
 	}
+	
+	@GetMapping("/hoaxes/{id:[0-9]+}") //id:[0-9]+ -> 0 ve 9 arasındaki sayılardan, bu sayılarda tekrar edebilir (+)
+	Page<HoaxVM> getHoaxesRelative(@PageableDefault(sort="id",direction= Direction.DESC) Pageable page,@PathVariable long id){
+		return hoaxService.getOldHoaxes(id,page).map(HoaxVM::new);//Hoax dataları mapliyip HoaxVM'e dönüştürüp return ediyor.
+	}
+	
+	@GetMapping("/users/{username}/hoaxes/{id:[0-9]+}") //id:[0-9]+ -> 0 ve 9 arasındaki sayılardan, bu sayılarda tekrar edebilir (+)
+	Page<HoaxVM> getUsersHoaxesRelative(@PageableDefault(sort="id",direction= Direction.DESC) Pageable page,@PathVariable String username,@PathVariable long id){
+		return hoaxService.getOldHoaxesofUser(username,id,page).map(HoaxVM::new);//Hoax dataları mapliyip HoaxVM'e dönüştürüp return ediyor.
+	}
 
 }
