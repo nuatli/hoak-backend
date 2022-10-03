@@ -26,7 +26,6 @@ public class HoaxService {
 	
 	public HoaxService(HoaxRepository hoaxRepository,UserService userService) {
 		super();
-		System.out.println("asd");
 		this.hoaxRepository = hoaxRepository;
 		this.userService = userService;
 	}

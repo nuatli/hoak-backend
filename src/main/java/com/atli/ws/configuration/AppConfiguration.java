@@ -10,5 +10,6 @@ import lombok.Data;
 @ConfigurationProperties(prefix = "app") // applicationPropertiesdeki verileri direk alıyor ve yml
 public class AppConfiguration {
 		private String uploadPath;
+		private int delete_file_scheduling;
 
 }
