@@ -2,20 +2,17 @@ package com.atli.ws.hoax;
 
 import java.util.Date;
 import java.util.List;
-
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.util.Streamable;
 import org.springframework.stereotype.Service;
 
+import com.atli.ws.file.FileAttachment;
+import com.atli.ws.file.FileAttachmentRepository;
+import com.atli.ws.hoax.vm.HoaxSubmitVM;
 import com.atli.ws.user.User;
 import com.atli.ws.user.UserService;
 
@@ -23,17 +20,27 @@ import com.atli.ws.user.UserService;
 public class HoaxService {
 	HoaxRepository hoaxRepository;
 	UserService userService;
+	FileAttachmentRepository fileAttachmentRepository;
 	
-	public HoaxService(HoaxRepository hoaxRepository,UserService userService) {
+	public HoaxService(HoaxRepository hoaxRepository,UserService userService,FileAttachmentRepository fileAttachmentRepository) {
 		super();
 		this.hoaxRepository = hoaxRepository;
 		this.userService = userService;
+		this.fileAttachmentRepository = fileAttachmentRepository;
 	}
 
-	public void save(Hoax hoax,User user) {
+	public void save(HoaxSubmitVM hoaxSubmitVM,User user) {
+		Hoax hoax = new Hoax();
+		hoax.setContent(hoaxSubmitVM.getContent());
 		hoax.setTimestamp(new Date());
 		hoax.setUser(user);
 		hoaxRepository.save(hoax);
+		Optional<FileAttachment> optionalfileAttachment = fileAttachmentRepository.findById(hoaxSubmitVM.getAttachmentId());
+		if(optionalfileAttachment.isPresent()) {//varsa databasede
+			FileAttachment fileAttachment = optionalfileAttachment.get();
+			fileAttachment.setHoax(hoax);
+			fileAttachmentRepository.save(fileAttachment);
+		}
 	}
 
 	public Page<Hoax> getHoaxesWithPage(Pageable page) {

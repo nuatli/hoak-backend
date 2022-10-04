@@ -52,11 +52,9 @@ public class FileService {
 		return fileName;
 	}
 	
-	
 	public String generateRandomName(){
 		return UUID.randomUUID().toString().replaceAll("-","");
 	}
-
 
 	public void deleteFile(String oldImageName) {
 		if(oldImageName == null) {
@@ -92,7 +90,6 @@ public class FileService {
 		attachment.setDate(new Date());
 		return fileAttachmentRepository.save(attachment);
 	}
-	
 	
 	@Scheduled(fixedRate = 24 * 60 * 60 * 1000)
 	public void cleanupStorage() {

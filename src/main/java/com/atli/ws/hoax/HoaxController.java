@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.atli.ws.hoax.vm.HoaxSubmitVM;
 import com.atli.ws.hoax.vm.HoaxVM;
 import com.atli.ws.shared.CurrentUser;
 import com.atli.ws.shared.GenericResponse;
@@ -34,7 +35,7 @@ public class HoaxController {
 	HoaxService hoaxService;
 	
 	@PostMapping("/hoaxes")
-	public GenericResponse saveHoax(@Valid @RequestBody Hoax hoax, @CurrentUser User user) {
+	public GenericResponse saveHoax(@Valid @RequestBody HoaxSubmitVM hoax, @CurrentUser User user) {
 		hoaxService.save(hoax,user);
 		return new GenericResponse("Hoax is saved");
 	}

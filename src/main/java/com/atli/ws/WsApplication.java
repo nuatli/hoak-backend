@@ -7,8 +7,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 
-import com.atli.ws.hoax.Hoax;
 import com.atli.ws.hoax.HoaxService;
+import com.atli.ws.hoax.vm.HoaxSubmitVM;
 import com.atli.ws.user.User;
 import com.atli.ws.user.UserService;
 
@@ -34,7 +34,7 @@ public class WsApplication {
 				user.setPassword("P4ssword");
 				userService.save(user);
 				for(int j =1 ;j<=20;j++){
-					Hoax hoax = new Hoax();
+					HoaxSubmitVM hoax = new HoaxSubmitVM();
 					hoax.setContent("hoax ("+j+ ") from user ("+i+")");			
 					hoaxService.save(hoax,user);
 				}
