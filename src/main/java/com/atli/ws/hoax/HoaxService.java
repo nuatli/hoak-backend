@@ -10,8 +10,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import com.atli.ws.configuration.AppConfiguration;
 import com.atli.ws.file.FileAttachment;
 import com.atli.ws.file.FileAttachmentRepository;
+import com.atli.ws.file.FileService;
 import com.atli.ws.hoax.vm.HoaxSubmitVM;
 import com.atli.ws.user.User;
 import com.atli.ws.user.UserService;
@@ -21,12 +23,16 @@ public class HoaxService {
 	HoaxRepository hoaxRepository;
 	UserService userService;
 	FileAttachmentRepository fileAttachmentRepository;
+	FileService fileService;
+	AppConfiguration appConfiguration;
 	
-	public HoaxService(HoaxRepository hoaxRepository,UserService userService,FileAttachmentRepository fileAttachmentRepository) {
+	public HoaxService(HoaxRepository hoaxRepository,UserService userService,FileAttachmentRepository fileAttachmentRepository,FileService fileService,AppConfiguration appConfiguration) {
 		super();
 		this.hoaxRepository = hoaxRepository;
 		this.userService = userService;
 		this.fileAttachmentRepository = fileAttachmentRepository;
+		this.fileService = fileService;
+		this.appConfiguration = appConfiguration;
 	}
 
 	public void save(HoaxSubmitVM hoaxSubmitVM,User user) {
@@ -104,6 +110,15 @@ public class HoaxService {
 		return (root,query, criteriaBuilder) -> {
 			 return criteriaBuilder.equal(root.get("user"), user);
 		};
+	}
+
+	public void deleteHoax(long id) {
+		Hoax inDB = hoaxRepository.getById(id);
+		if(inDB.getFileAttachment() != null) {
+			String fileName = inDB.getFileAttachment().getName();
+			fileService.deleteFile(fileName, appConfiguration.getAttachmentStoragePath());
+		}
+		hoaxRepository.deleteById(id);
 	}
 	
 

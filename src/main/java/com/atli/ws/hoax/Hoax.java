@@ -2,6 +2,7 @@ package com.atli.ws.hoax;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,7 +18,6 @@ import com.atli.ws.file.FileAttachment;
 import com.atli.ws.user.User;
 
 import lombok.Data;
-
 
 @Data
 @Entity // Database
@@ -38,7 +38,12 @@ public class Hoax{
 	@ManyToOne
 	private User user;
 	
-	@OneToOne(mappedBy="hoax")
+	/*
+	@OneToOne(mappedBy="hoax",orphanRemoval = true)//Eğer ilgili hoax silinirse OneToOne olan da silinir.
+	private FileAttachment fileAttachment;
+	*/
+	
+	@OneToOne(mappedBy="hoax",cascade = CascadeType.REMOVE)//cascade
 	private FileAttachment fileAttachment;
 
 }

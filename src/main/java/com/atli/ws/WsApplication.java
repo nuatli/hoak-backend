@@ -4,6 +4,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 
@@ -17,8 +18,14 @@ import com.atli.ws.user.UserService;
 public class WsApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(WsApplication.class, args);
-		System.out.println("****************************************************************************************************************************");
+		ApplicationContext applicationContext = SpringApplication.run(WsApplication.class, args);
+		String[] allBeanNames = applicationContext.getBeanDefinitionNames();
+		System.out.println("********************* Bean Name Start *********************");
+		for(String beanName : allBeanNames) {
+			//System.out.println(beanName);
+		}
+		System.out.println("********************* Bean Name End *********************");
+		
 	}
 	
 	@Bean//Spring ile iliski kurduk, Uyguluama ayağı takltığı zaman çalışıyor.
