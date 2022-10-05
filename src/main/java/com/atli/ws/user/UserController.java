@@ -35,6 +35,7 @@ public class UserController {
 		userService.save(user);
 		return new GenericResponse("User Created");
 	}
+	
 	@GetMapping("/users")
 	List<User> getUsers(){
 		return userService.getUsers();

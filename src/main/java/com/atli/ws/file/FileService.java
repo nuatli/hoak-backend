@@ -42,7 +42,7 @@ public class FileService {
 	
 	public String writeBase64EncodedStringToFile(String image,String username) throws IOException {
 		String fileName = generateRandomName();
-		File target = new File(appConfiguration.getUploadPath()+"/"+fileName);
+		File target = new File(appConfiguration.getProfileStoragePath()+"/"+fileName);
 		OutputStream outputStream = new FileOutputStream(target);
 		
 		byte[] base64encoded = Base64.getDecoder().decode(image);
@@ -56,30 +56,42 @@ public class FileService {
 		return UUID.randomUUID().toString().replaceAll("-","");
 	}
 
-	public void deleteFile(String oldImageName) {
+	public void deleteFile(String oldImageName,String path) {
 		if(oldImageName == null) {
 			return;
 		}
 		try {
-			Files.deleteIfExists(Paths.get(appConfiguration.getUploadPath(), oldImageName));
+			Files.deleteIfExists(Paths.get(path, oldImageName));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public String detectType(String value) {
+	public String detectType(byte[] arr) {
+		return tika.detect(arr);
+		/*
 		byte[] base64encoded = Base64.getDecoder().decode(value);
+		String fileType = tika.detect(base64encoded);
+		return fileType;
+		*/
+	}
+	
+	public String detectType(String base64) {
+		byte[] base64encoded = Base64.getDecoder().decode(base64);
 		String fileType = tika.detect(base64encoded);
 		return fileType;
 	}
 
 	public FileAttachment saveHoaxAttachment(MultipartFile multipartFile) {
 		String fileName = generateRandomName();
-		File target = new File(appConfiguration.getUploadPath()+"/"+fileName);
+		File target = new File(appConfiguration.getAttachmentStoragePath()+"/"+fileName);
+		String fileType = null;
 		try {
+			byte[] arr = multipartFile.getBytes();
 			OutputStream outputStream = new FileOutputStream(target);
-			outputStream.write(multipartFile.getBytes());
+			outputStream.write(arr);
 			outputStream.close();
+			fileType = tika.detect(arr);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -88,17 +100,17 @@ public class FileService {
 		FileAttachment attachment = new FileAttachment();
 		attachment.setName(fileName);
 		attachment.setDate(new Date());
+		attachment.setFileType(fileType);
 		return fileAttachmentRepository.save(attachment);
 	}
 	
 	@Scheduled(fixedRate = 24 * 60 * 60 * 1000)
 	public void cleanupStorage() {
-		//System.out.println(appConfiguration.getDelete_file_scheduling());
 		Date twentyFourHoursAgo = new Date(System.currentTimeMillis() - (24 * 60 * 60 * 1000));
 		List<FileAttachment> filesToBeDeleted = fileAttachmentRepository.findByDateBeforeAndHoaxIsNull(twentyFourHoursAgo);
 		for(FileAttachment file : filesToBeDeleted) {
 			//delete file
-			deleteFile(file.getName());
+			deleteFile(file.getName(),appConfiguration.getAttachmentStoragePath());
 			//delete from table
 			fileAttachmentRepository.deleteById(file.getId());
 		}
