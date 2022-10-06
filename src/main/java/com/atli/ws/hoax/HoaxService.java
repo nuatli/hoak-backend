@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -26,13 +27,13 @@ public class HoaxService {
 	FileService fileService;
 	AppConfiguration appConfiguration;
 	
-	public HoaxService(HoaxRepository hoaxRepository,UserService userService,FileAttachmentRepository fileAttachmentRepository,FileService fileService,AppConfiguration appConfiguration) {
+	public HoaxService(HoaxRepository hoaxRepository,FileAttachmentRepository fileAttachmentRepository,FileService fileService,AppConfiguration appConfiguration,UserService userService) {
 		super();
 		this.hoaxRepository = hoaxRepository;
-		this.userService = userService;
 		this.fileAttachmentRepository = fileAttachmentRepository;
 		this.fileService = fileService;
 		this.appConfiguration = appConfiguration;
+		this.userService = userService;
 	}
 
 	public void save(HoaxSubmitVM hoaxSubmitVM,User user) {

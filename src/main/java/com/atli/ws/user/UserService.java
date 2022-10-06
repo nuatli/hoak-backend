@@ -3,7 +3,6 @@ package com.atli.ws.user;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.ApplicationArguments;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -28,7 +27,7 @@ public class UserService {
 		this.fileService = fileService;
 		this.appConfiguration = appConfiguration;
 	}
-
+	
 	public void save(User user) {
 		user.setPassword(this.passwordEncoder.encode(user.getPassword()));
 		userRepository.save(user);
@@ -79,6 +78,13 @@ public class UserService {
 			fileService.deleteFile(oldImageName,appConfiguration.getProfileStoragePath());
 		}
 		return userRepository.save(inDB);
+	}
+
+	public void deleteUser(String username) {
+		User inDB = userRepository.findByUsername(username);
+		//fileService.deleteFile(inDB.getImage(), appConfiguration.getProfileStoragePath());
+		fileService.deleteAllStoredFilesForUser(inDB);
+		userRepository.delete(inDB);
 	}
 	
 

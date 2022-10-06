@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.atli.ws.configuration.AppConfiguration;
+import com.atli.ws.user.User;
 
 @Service
 @EnableScheduling
@@ -114,5 +115,15 @@ public class FileService {
 			//delete from table
 			fileAttachmentRepository.deleteById(file.getId());
 		}
+	}
+
+	public void deleteAllStoredFilesForUser(User inDB) {
+		deleteFile(inDB.getImage(),appConfiguration.getProfileStoragePath());
+		List<FileAttachment> filesToBeRemoved = fileAttachmentRepository.findByHoaxUser(inDB);
+		for(FileAttachment file : filesToBeRemoved) {
+			deleteFile(file.getName(),appConfiguration.getAttachmentStoragePath());
+			//fileAttachmentRepository.deleteById(file.getId());
+		}
+		
 	}
 }
