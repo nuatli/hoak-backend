@@ -38,6 +38,7 @@ public class Hoax{
 	@ManyToOne
 	private User user;
 	
+	
 	/*
 	@OneToOne(mappedBy="hoax",orphanRemoval = true)//Eğer ilgili hoax silinirse OneToOne olan da silinir.
 	private FileAttachment fileAttachment;

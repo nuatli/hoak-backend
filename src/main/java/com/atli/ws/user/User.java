@@ -17,6 +17,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.atli.ws.auth.Token;
 import com.atli.ws.hoax.Hoax;
 
 import lombok.Data;
@@ -58,6 +59,9 @@ public class User implements UserDetails{
 	public void setId(Long id) {
 		this.id = id;
 	}
+	
+	@OneToMany(mappedBy="user",cascade = CascadeType.REMOVE)
+	private List<Token> tokens;
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

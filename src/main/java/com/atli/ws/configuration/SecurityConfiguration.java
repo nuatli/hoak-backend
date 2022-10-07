@@ -32,6 +32,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 				.antMatchers(HttpMethod.PUT, "api/0.0.1/users/{username}").authenticated ()
 				.antMatchers(HttpMethod.POST, "api/0.0.1/hoaxes").authenticated () // login olmadan bu apileri kullanamaz
 				.antMatchers(HttpMethod.POST, "api/0.0.1/hoax-attachments").authenticated () // login olmadan bu apileri kullanamaz
+				.antMatchers(HttpMethod.POST, "api/0.0.1/logout").authenticated ()
 			.	and()
 			.	authorizeRequests().anyRequest().permitAll();
 		
